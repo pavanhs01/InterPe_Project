@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #B0BEC5; /* background color set to grey */
+    }
+
+    .calculator {
+      background: #222;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0px 0px 20px rgba(0,0,0,0.5);
+    }
+
+    .display {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+    }
+
+    .display input {
+      flex: 1;
+      height: 60px;
+      font-size: 25px;
+      text-align: right;
+      padding-right: 10px;
+      background: gray;
+      color: #0f0;
+      border: none;
+      border-radius: 10px;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 70px);
+      grid-gap: 10px;
+    }
+
+    button {
+      height: 60px;
+      font-size: 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      background: #333;
+      color: white;
+      box-shadow: inset -2px -2px 5px rgba(0,0,0,0.5), 
+                  inset 2px 2px 5px rgba(255,255,255,0.1);
+    }
+
+    button.operator {
+      color: #0f0;
+    }
+
+    button.special {
+      color: #0ff;
+    }
+
+    button.equal {
+      grid-column: span 2;
+      background: #0f0;
+      color: black;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <div class="display">
+      <input type="text" id="display" readonly>
+    </div>
+    <div class="buttons">
+      <button class="special" data-action="clear">AC</button>
+      <button class="special" data-action="delete">DE</button>
+      <button class="operator" data-value=".">.</button>
+      <button class="operator" data-value="/">/</button>
+
+      <button data-value="7">7</button>
+      <button data-value="8">8</button>
+      <button data-value="9">9</button>
+      <button class="operator" data-value="*">*</button>
+
+      <button data-value="4">4</button>
+      <button data-value="5">5</button>
+      <button data-value="6">6</button>
+      <button class="operator" data-value="-">-</button>
+
+      <button data-value="1">1</button>
+      <button data-value="2">2</button>
+      <button data-value="3">3</button>
+      <button class="operator" data-value="+">+</button>
+
+      <button data-value="00">00</button>
+      <button data-value="0">0</button>
+      <button class="equal" data-action="calculate">=</button>
+    </div>
+  </div>
+
+  <script>
+    const display = document.getElementById("display");
+    const buttons = document.querySelectorAll("button");
+
+    buttons.forEach(button => {
+      button.addEventListener("click", () => {
+        const value = button.dataset.value;
+        const action = button.dataset.action;
+
+        if (action === "clear") {
+          display.value = "";
+        } else if (action === "delete") {
+          display.value = display.value.slice(0, -1);
+        } else if (action === "calculate") {
+          try {
+            display.value = eval(display.value);
+          } catch {
+            display.value = "Error";
+          }
+        } else {
+          display.value += value;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
